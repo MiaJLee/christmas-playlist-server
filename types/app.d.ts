@@ -9,13 +9,16 @@ interface CardDesign {
 }
 
 interface Card {
-	id: number
 	sender: string
 	reciever: string
 	card: CardDesign
 	text: string
-	created_at: string
 	musicId: number
+}
+
+interface CardExt extends Card {
+	_id: any
+	created_at: string
 }
 
 interface Music {
@@ -31,4 +34,4 @@ interface Music {
 
 type CardReq = Omit<Card, 'id', 'created_at'>
 
-export { Illustration, Shape, Color, CardDesign, Card, Music }
+export { Illustration, Shape, Color, CardDesign, Card, CardExt, Music }

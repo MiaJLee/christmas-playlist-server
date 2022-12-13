@@ -1,38 +1,38 @@
-import { Music, Card } from '../types/app'
-
-export const cards: Array<Card> = [
-	{
-		sender: '지형',
-		reciever: '현진',
-		card: {
-			shape: 'circle',
-			color: 'pink',
-			illustration: 'rabbit',
-		},
-		text: '이건 편지야 이건 편지야~~',
-		musicId: 1,
-	},
-	{
-		sender: '지형',
-		reciever: '현진',
-		card: {
-			shape: 'circle',
-			color: 'pink',
-			illustration: 'rabbit',
-		},
-		text: '이건 편지야',
-		musicId: 1,
-	},
-]
-
-export const musics: Array<Music> = [
-	{
-		id: 1,
-		title: 'New Day',
-		artist: '폴킴',
-		lyrics: `이뤄질 거라 믿으면
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.musics = exports.cards = void 0;
+exports.cards = [
+    {
+        sender: '지형',
+        reciever: '현진',
+        card: {
+            shape: 'circle',
+            color: 'pink',
+            illustration: 'rabbit',
+        },
+        text: '이건 편지야 이건 편지야~~',
+        musicId: 1,
+    },
+    {
+        sender: '지형',
+        reciever: '현진',
+        card: {
+            shape: 'circle',
+            color: 'pink',
+            illustration: 'rabbit',
+        },
+        text: '이건 편지야',
+        musicId: 1,
+    },
+];
+exports.musics = [
+    {
+        id: 1,
+        title: 'New Day',
+        artist: '폴킴',
+        lyrics: `이뤄질 거라 믿으면
     언젠간 꼭 오겠지`,
-		fullLyrics: `우연히 올려다본 거리
+        fullLyrics: `우연히 올려다본 거리
     내가 알고 있는 그대로
     지나가는 사람마저
     익숙한걸
@@ -94,17 +94,17 @@ export const musics: Array<Music> = [
 
     이뤄질 거라 믿으면
     언젠간 꼭 오겠지`,
-		image: '',
-		spotifyLink: '',
-		youtubeLink: '',
-	},
-	{
-		id: 2,
-		title: 'New Day',
-		artist: '폴킴',
-		lyrics: `이뤄질 거라 믿으면
+        image: '',
+        spotifyLink: '',
+        youtubeLink: '',
+    },
+    {
+        id: 2,
+        title: 'New Day',
+        artist: '폴킴',
+        lyrics: `이뤄질 거라 믿으면
     언젠간 꼭 오겠지`,
-		fullLyrics: `우연히 올려다본 거리
+        fullLyrics: `우연히 올려다본 거리
     내가 알고 있는 그대로
     지나가는 사람마저
     익숙한걸
@@ -166,8 +166,8 @@ export const musics: Array<Music> = [
 
     이뤄질 거라 믿으면
     언젠간 꼭 오겠지`,
-		image: '',
-		spotifyLink: '',
-		youtubeLink: '',
-	},
-]
+        image: '',
+        spotifyLink: '',
+        youtubeLink: '',
+    },
+];
