@@ -1,8 +1,8 @@
 {
-	"name": "christmas-playlist-server",
+	"name": "new-year-card-server",
 	"version": "1.0.0",
 	"description": "",
-	"main": "search-spotify.js",
+	"main": "app.ts",
 	"scripts": {
 		"build": "tsc",
 		"start": "node ./bin/app.js",
@@ -17,7 +17,7 @@
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
 		"luxon": "^3.1.1",
-		"mongodb": "4.12",
+		"mongodb": "4.12.1",
 		"mongoose": "^6.8.0",
 		"path-to-regexp": "^6.2.1",
 		"request": "^2.88.2",

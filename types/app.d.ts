@@ -1,19 +1,38 @@
-type Illustration = 'rabbit' | 'happy' | 'bok' | '2023'
-type Shape = 'circle' | 'square' | 'heart' | 'triangle'
-type Color = 'pink' | 'yellow' | 'red' | 'green'
+type Card = 'rabbit01' | 'rabbit02' | 'rabbit03' | 'shape01' | 'shape02' | 'shape03'
+type Lettering = 'happyNewYear' | 'saeHaeBok'
+type Background = 'white' | 'orange' | 'black' | 'gradient'
+type Effect = 'none' | 'snow' | 'circles' | 'confetti' | 'kirakira' | 'fireworks'
 
-interface CardDesign {
-	shape: Shape
-	color: Color
-	illustration: Illustration
-}
-
-interface Card {
+interface postCardReq {
+	shape: Card
+	lettering: Lettering
+	background: Background
+	effect: Effect
+	text: string
+	musicId: string
 	sender: string
 	reciever: string
-	card: CardDesign
+}
+
+interface postCardRes {
+	message: string
+	cardId: string
+}
+
+interface getCardReq {
+	cardId: string
+}
+
+interface getCardRes {
+	shape: Card
+	lettering: Lettering
+	background: Background
+	effect: Effect
 	text: string
-	musicId: number
+	musicId: string
+	sender: string
+	reciever: string
+	cardId: string
 }
 
 interface CardExt extends Card {
@@ -21,17 +40,6 @@ interface CardExt extends Card {
 	created_at: string
 }
 
-interface Music {
-	id: number
-	title: string
-	artist: string
-	lyrics: string
-	fullLyrics: string
-	image: string
-	spotifyLink: string
-	youtubeLink: string
-}
-
 type CardReq = Omit<Card, 'id', 'created_at'>
 
-export { Illustration, Shape, Color, CardDesign, Card, CardExt, Music }
+export { postCardReq, postCardRes, getCardReq, getCardRes }
