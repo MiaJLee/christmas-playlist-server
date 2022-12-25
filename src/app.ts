@@ -1,9 +1,18 @@
+process.env.NODE_ENV =
+	process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() == 'production'
+		? 'production'
+		: 'development'
+
 const express = require('express')
 const server = express()
 const { DateTime } = require('luxon')
 var cors = require('cors')
 const { MongoClient, ObjectId } = require('mongodb')
 import { postCardReq } from '../types/app'
+
+if (process.env.NODE_ENV === 'development') {
+	require('dotenv').config()
+}
 
 /** @TODO 수정 필요 */
 const whitelist = ['http://localhost:4200']
@@ -34,18 +43,21 @@ const local = DateTime.local().setZone('Asia/Seoul')
 const firstDayOf2023 = DateTime.fromISO('2023-01-01T00:00:00', { zone: 'Asia/Seoul' })
 
 async function postCard(cardData: postCardReq) {
+	const created_at = local.toFormat('yyyyMMddHHmmss')
+	const card = { ...cardData, created_at }
+
 	try {
-		const created_at = local.toFormat('yyyyMMddHHmmss')
-		const card = {
-			...cardData,
-			created_at,
-		}
+		await client.connect()
 
 		const result = await collectionCard.insertOne(card)
 
+		if (result) {
+			console.log(`successfully posted a card with the following id: ${result.insertedId}`)
+		}
+
 		return result
-	} catch {
-		console.dir
+	} catch (e) {
+		console.error(e)
 	} finally {
 		await client.close()
 	}
@@ -53,19 +65,24 @@ async function postCard(cardData: postCardReq) {
 
 async function getCardById(id: string) {
 	try {
+		await client.connect()
+
 		const card = await collectionCard.findOne({ _id: ObjectId(id) })
 
+		if (card) {
+			console.log(`found the card with the id: ${id}`, card)
+		}
+
 		return card
-	} catch {
-		console.dir
+	} catch (e) {
+		console.error(e)
 	} finally {
 		await client.close()
 	}
 }
 
 server.listen(port, () => {
-	console.log('the server is running')
-	console.log(port)
+	console.log(`the server is running at port ${port}`)
 })
 
 /**

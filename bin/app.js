@@ -9,11 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+process.env.NODE_ENV =
+    process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() == 'production'
+        ? 'production'
+        : 'development';
 const express = require('express');
 const server = express();
 const { DateTime } = require('luxon');
 var cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
+if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config();
+}
 /** @TODO 수정 필요 */
 const whitelist = ['http://localhost:4200'];
 const corsOptions = {
@@ -38,14 +45,18 @@ const local = DateTime.local().setZone('Asia/Seoul');
 const firstDayOf2023 = DateTime.fromISO('2023-01-01T00:00:00', { zone: 'Asia/Seoul' });
 function postCard(cardData) {
     return __awaiter(this, void 0, void 0, function* () {
+        const created_at = local.toFormat('yyyyMMddHHmmss');
+        const card = Object.assign(Object.assign({}, cardData), { created_at });
         try {
-            const created_at = local.toFormat('yyyyMMddHHmmss');
-            const card = Object.assign(Object.assign({}, cardData), { created_at });
+            yield client.connect();
             const result = yield collectionCard.insertOne(card);
+            if (result) {
+                console.log(`successfully posted a card with the following id: ${result.insertedId}`);
+            }
             return result;
         }
-        catch (_a) {
-            console.dir;
+        catch (e) {
+            console.error(e);
         }
         finally {
             yield client.close();
@@ -55,11 +66,15 @@ function postCard(cardData) {
 function getCardById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield client.connect();
             const card = yield collectionCard.findOne({ _id: ObjectId(id) });
+            if (card) {
+                console.log(`found the card with the id: ${id}`, card);
+            }
             return card;
         }
-        catch (_a) {
-            console.dir;
+        catch (e) {
+            console.error(e);
         }
         finally {
             yield client.close();
@@ -67,8 +82,7 @@ function getCardById(id) {
     });
 }
 server.listen(port, () => {
-    console.log('the server is running');
-    console.log(port);
+    console.log(`the server is running at port ${port}`);
 });
 /**
  * 카드를 저장한다.
