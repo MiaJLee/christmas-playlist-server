@@ -4,7 +4,6 @@ const { DateTime } = require('luxon')
 var cors = require('cors')
 const { MongoClient, ObjectId } = require('mongodb')
 import { postCardReq } from '../types/app'
-require('dotenv').config()
 
 /** @TODO 수정 필요 */
 const whitelist = ['http://localhost:4200']
