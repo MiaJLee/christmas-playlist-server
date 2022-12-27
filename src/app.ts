@@ -135,9 +135,9 @@ server.get('/card/:id', (req: any, res: any) => {
 						receiver: result.receiver,
 					},
 				})
-			}
 
-			if (result) {
+				return
+			} else {
 				res.json({ message: 'success', result })
 			}
 		})
