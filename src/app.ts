@@ -127,8 +127,7 @@ server.get('/card/:id', (req: any, res: any) => {
 				throw Error
 			}
 			/** [workaround] 시간이 되지 않은 경우 데이터 리턴하지 않는다. */
-			// @TODO: 최종 배포 전에 부등호 바꾸기
-			if (req.origin === APP_URL && local < firstDayOf2023) {
+			if (process.env.NODE_ENV === 'production' && local < firstDayOf2023) {
 				res.json({
 					message: 'notyet',
 					result: {
