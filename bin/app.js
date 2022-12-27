@@ -21,8 +21,13 @@ const { MongoClient, ObjectId } = require('mongodb');
 if (process.env.NODE_ENV === 'development') {
     require('dotenv').config();
 }
+const APP_URL = 'https://dj-blackbunny.netlify.app';
 /** @TODO 수정 필요 */
-const whitelist = ['http://localhost:4200'];
+const whitelist = [
+    'http://localhost:4200',
+    'http://172.30.1.42:4200',
+    'https://dj-blackbunny.netlify.app',
+];
 const corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
@@ -118,7 +123,7 @@ server.get('/card/:id', (req, res) => {
         }
         /** [workaround] 시간이 되지 않은 경우 데이터 리턴하지 않는다. */
         // @TODO: 최종 배포 전에 부등호 바꾸기
-        if (local > firstDayOf2023) {
+        if (req.origin === APP_URL && local < firstDayOf2023) {
             res.json({
                 message: 'notyet',
                 result: {
