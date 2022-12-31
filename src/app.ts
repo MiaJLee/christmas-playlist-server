@@ -17,11 +17,7 @@ if (process.env.NODE_ENV === 'development') {
 const APP_URL = 'https://dj-blackbunny.netlify.app'
 
 /** @TODO 수정 필요 */
-const whitelist = [
-	'http://localhost:4200',
-	'http://172.30.1.42:4200',
-	'https://dj-blackbunny.netlify.app',
-]
+const whitelist = ['http://172.30.1.84:4200', 'https://dj-blackbunny.netlify.app']
 
 const corsOptions = {
 	origin: function (origin: any, callback: any) {
@@ -121,8 +117,6 @@ server.get('/card/:id', (req: any, res: any) => {
 
 	getCardById(id)
 		.then((result) => {
-			console.log(result)
-
 			if (!result) {
 				throw Error
 			}
