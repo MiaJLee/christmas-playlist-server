@@ -36,15 +36,20 @@ server.use(express.urlencoded({ extended: true })) // body를 받겠다는 의�
 
 const port = process.env.PORT || 3000
 
-const MONGODB_URL = process.env.MONGODB_URI
-const client = new MongoClient(MONGODB_URL, { useUnifiedTopology: true })
-const db = client.db(process.env.MONGODB_DATABASE)
-const collectionCard = db.collection(process.env.MONGODB_COLLECTION_CARDS)
+// const MONGODB_URL = process.env.MONGODB_URI
+// const client = new MongoClient(MONGODB_URL, { useUnifiedTopology: true })
+// const db = client.db(process.env.MONGODB_DATABASE)
+// const collectionCard = db.collection(process.env.MONGODB_COLLECTION_CARDS)
 
 const local = DateTime.local().setZone('Asia/Seoul')
 const firstDayOf2023 = DateTime.fromISO('2023-01-01T00:00:00', { zone: 'Asia/Seoul' })
 
 async function postCard(cardData: postCardReq) {
+	const MONGODB_URL = process.env.MONGODB_URI
+	const client = new MongoClient(MONGODB_URL, { useUnifiedTopology: true })
+	const db = client.db(process.env.MONGODB_DATABASE)
+	const collectionCard = db.collection(process.env.MONGODB_COLLECTION_CARDS)
+
 	const created_at = local.toFormat('yyyyMMddHHmmss')
 	const card = { ...cardData, created_at }
 
@@ -54,7 +59,9 @@ async function postCard(cardData: postCardReq) {
 		const result = await collectionCard.insertOne(card)
 
 		if (result) {
-			console.log(`successfully posted a card with the following id: ${result.insertedId}`)
+			console.log(
+				`============================\n카드가 생성되었습니다\nid: ${result.insertedId}, \ncard: ${result}\n============================`
+			)
 		}
 
 		return result
@@ -66,13 +73,20 @@ async function postCard(cardData: postCardReq) {
 }
 
 async function getCardById(id: string) {
+	const MONGODB_URL = process.env.MONGODB_URI
+	const client = new MongoClient(MONGODB_URL, { useUnifiedTopology: true })
+	const db = client.db(process.env.MONGODB_DATABASE)
+	const collectionCard = db.collection(process.env.MONGODB_COLLECTION_CARDS)
+
 	try {
 		await client.connect()
 
 		const card = await collectionCard.findOne({ _id: ObjectId(id) })
 
 		if (card) {
-			console.log(`found the card with the id: ${id}`, card)
+			console.log(
+				`============================\n카드가 조회되었습니다\nid: ${id} \ncard: ${card}\n============================`
+			)
 		}
 
 		return card
@@ -120,6 +134,10 @@ server.get('/card/:id', (req: any, res: any) => {
 			if (!result) {
 				throw Error
 			}
+
+			console.log(
+				`현재시간: ${local.toFormat('yyyy-MM-dd HH:mm:ss')}\nis새해: ${local > firstDayOf2023}`
+			)
 			/** [workaround] 시간이 되지 않은 경우 데이터 리턴하지 않는다. */
 			if (process.env.NODE_ENV === 'production' && local < firstDayOf2023) {
 				res.json({
