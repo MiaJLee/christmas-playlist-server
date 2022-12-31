@@ -35,13 +35,6 @@ server.use(express.json())
 server.use(express.urlencoded({ extended: true })) // body를 받겠다는 의미(middleware)
 
 const port = process.env.PORT || 3000
-
-// const MONGODB_URL = process.env.MONGODB_URI
-// const client = new MongoClient(MONGODB_URL, { useUnifiedTopology: true })
-// const db = client.db(process.env.MONGODB_DATABASE)
-// const collectionCard = db.collection(process.env.MONGODB_COLLECTION_CARDS)
-
-const local = DateTime.local().setZone('Asia/Seoul')
 const firstDayOf2023 = DateTime.fromISO('2023-01-01T00:00:00', { zone: 'Asia/Seoul' })
 
 async function postCard(cardData: postCardReq) {
@@ -49,6 +42,7 @@ async function postCard(cardData: postCardReq) {
 	const client = new MongoClient(MONGODB_URL, { useUnifiedTopology: true })
 	const db = client.db(process.env.MONGODB_DATABASE)
 	const collectionCard = db.collection(process.env.MONGODB_COLLECTION_CARDS)
+	const local = DateTime.local().setZone('Asia/Seoul')
 
 	const created_at = local.toFormat('yyyyMMddHHmmss')
 	const card = { ...cardData, created_at }
@@ -60,7 +54,9 @@ async function postCard(cardData: postCardReq) {
 
 		if (result) {
 			console.log(
-				`============================\n카드가 생성되었습니다\nid: ${result.insertedId}, \ncard: ${result}\n============================`
+				`============================\n카드가 생성되었습니다\nid: ${result.insertedId}, \ncard: `,
+				card,
+				`\n============================`
 			)
 		}
 
@@ -85,7 +81,9 @@ async function getCardById(id: string) {
 
 		if (card) {
 			console.log(
-				`============================\n카드가 조회되었습니다\nid: ${id} \ncard: ${card}\n============================`
+				`============================\n카드가 조회되었습니다\nid: ${id} \ncard: `,
+				card,
+				`\n============================`
 			)
 		}
 
@@ -128,6 +126,7 @@ server.post('/card', (req: any, res: any) => {
  */
 server.get('/card/:id', (req: any, res: any) => {
 	const { id } = req.params
+	const local = DateTime.local().setZone('Asia/Seoul')
 
 	getCardById(id)
 		.then((result) => {
