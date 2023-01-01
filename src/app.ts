@@ -17,7 +17,11 @@ if (process.env.NODE_ENV === 'development') {
 const APP_URL = 'https://dj-blackbunny.netlify.app'
 
 /** @TODO 수정 필요 */
-const whitelist = ['http://172.30.1.84:4200', 'https://dj-blackbunny.netlify.app']
+const whitelist = [
+	'http://172.30.1.84:4200',
+	'https://dj-blackbunny.netlify.app',
+	'http://localhost:4200',
+]
 
 const corsOptions = {
 	origin: function (origin: any, callback: any) {
